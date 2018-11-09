@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\NewsLetter;
 use DB,Cache,Mail;
 use App\News;
+use App\NewsCate;
 class IndexController extends Controller {
 	protected $setting = NULL;
 
@@ -34,10 +35,7 @@ class IndexController extends Controller {
     	Cache::forever('setting', $setting);
        
         Cache::forever('about', $about);
-        if(Auth::check())
-        {
-        	View::share('nguoidung',Auth::user());
-        }
+        
         
 	}
 
@@ -49,12 +47,11 @@ class IndexController extends Controller {
 	public function index()
 	{
 			
-		$tintuc_moinhat = DB::table('news')->select()->where('status',1)->where('com','tin-tuc')->orderBy('id','desc')->take(8)->get();
+		$tintuc_moinhat = DB::table('news')->select()->where('status',1)->where('com','bai-viet')->orderBy('id','desc')->take(4)->get();
+
 		$com='index';		
-		$about = DB::table('about')->where('com', 'gioi-thieu')->first();
-		$lienkets = DB::table('lienket')->where('com','chuyen-muc')->first();		
-		$partners = DB::table('partner')->where('status',1)->orderBy('id','desc')->get();
-				
+		$hot_news = DB::table('news')->where('status',1)->where('noibat',1)->take(8)->orderBy('id','desc')->get();
+		$categories = NewsCate::where('parent_id', 0)->where('home', 1)->get();			
 		// Cấu hình SEO
 		$setting = Cache::get('setting');
 		$title = $setting->title;
@@ -63,7 +60,7 @@ class IndexController extends Controller {
 		// End cấu hình SEO
 		$img_share = asset('upload/hinhanh/'.$setting->photo);
 
-		return view('templates.index_tpl', compact('title', 'description', 'keyword', 'setting', 'about'));
+		return view('templates.index_tpl', compact('title', 'description', 'keyword', 'setting', 'about','hot_news','tintuc_moinhat','categories'));
 	}
 	
 	public function getAbout()
@@ -100,21 +97,21 @@ class IndexController extends Controller {
 		return view('templates.news_tpl', compact('tintuc','banner_danhmuc','tintuc_noibat','camnhan_khachhang','keyword','description','title','img_share','com','cateNews','cate_pro','products','hot_news'));
 	}
 	public function getListNews($alias)
-	{
-		
-		$tintuc_cate = DB::table('news_categories')
-			->where('status',1)->where('com','bai-viet')
+	{		
+		$tintuc_cate = NewsCate::where('status',1)
+			->where('com','bai-viet')
 			->where('alias',$alias)
 			->first();
 		$cateNews = DB::table('news_categories')->where('com','tin-tuc')->get();
 		if(!empty($tintuc_cate)){
-			$ids =[];
-			$ids[] = $tintuc_cate->id;
-			$cateChilds = DB::table('news_categories')->where('parent_id', $tintuc_cate->id)->get();
-			foreach($cateChilds as $child){
-				$ids[] = $child->id;
-			} 
-			$news = News::where('status',1)->whereIn('cate_id', $ids)->orderBy('id','desc')->paginate(10);
+			// $ids =[];
+			// $ids[] = $tintuc_cate->id;
+			// $cateChilds = DB::table('news_categories')->where('parent_id', $tintuc_cate->id)->get();
+			// foreach($cateChilds as $child){
+			// 	$ids[] = $child->id;
+			// } 
+			// $news = News::where('status',1)->whereIn('cate_id', $ids)->orderBy('id','desc')->paginate(10);
+			$news = $tintuc_cate->news;
 			$hot_news = DB::table('news')->where('noibat',1)->where('status',1)->take(20)->orderBy('id','desc')->get();
 			if(!empty($tintuc_cate->title)){
 				$title = $tintuc_cate->title;

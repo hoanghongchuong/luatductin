@@ -43,10 +43,10 @@
 								      	<label for="ten">Tên công ty</label>
 								      	<input type="text" name="txtCompany" value="{!! old('txtCompany', isset($data) ? $data->company : null) !!}"  class="form-control" />
 									</div>
-									<!-- <div class="form-group">
+									<div class="form-group">
 								      	<label for="ten">Địa chỉ</label>
 								      	<input type="text" name="txtAddress" value="{!! old('txtAddress', isset($data) ? $data->address : null) !!}"  class="form-control" />
-									</div> -->
+									</div>
 									<div class="form-group">
 								      	<label for="ten">Website</label>
 								      	<input type="text" name="txtWebsite" value="{!! old('txtWebsite', isset($data) ? $data->website : null) !!}"  class="form-control" />

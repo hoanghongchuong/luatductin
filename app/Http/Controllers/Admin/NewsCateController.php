@@ -81,6 +81,7 @@ class NewsCateController extends Controller {
         }else{
             $cate->status = 0;
         }
+        $cate->home = $request->home ? true : false;
         $cate->save();
         return redirect('backend/newscate?type='.$com)->with('status','Thêm mới thành công !');
     }
@@ -182,7 +183,7 @@ class NewsCateController extends Controller {
             }else{
                 $news_cate->status = 0;
             }
-
+            $news_cate->home = $request->home ? true : false;
             $news_cate->save();
 
             return redirect('backend/newscate/edit?id='.$id.'&type='.$com)->with('status','Cập nhật thành công');

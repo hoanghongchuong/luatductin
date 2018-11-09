@@ -779,3 +779,21 @@ footer{
 .box-table tbody a{
 	color: #039;
 }
+.box-register{
+	margin-bottom: 30px;
+	/*margin-top: 30px;*/
+}
+.box-register h1{
+	color: #0066CC;
+	font-size: 22px;
+	text-transform: uppercase;
+	font-weight: bold;
+	text-align: center;
+}
+.box-register .form-group{
+	margin-bottom: 10px;
+}
+.btn-register-member{
+	text-align: center;
+	margin-top: 15px;
+}

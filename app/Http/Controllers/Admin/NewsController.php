@@ -30,7 +30,7 @@ class NewsController extends Controller
         }else{
             $com='';
         }
-        $data = News::select()->where('com' , $com)->get();
+        $data = News::select()->where('com' , $com)->orderBy('id','desc')->get();
         return view('admin.news.list', compact('data','trang'));
     }
     public function getAdd()

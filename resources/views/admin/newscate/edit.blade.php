@@ -128,7 +128,11 @@
 					      <label for="ten">Số thứ tự</label>
 					      <input type="number" min="1" name="stt" value="{!! isset($data->status) ? $data->stt : (count($parent)+1) !!}" class="form-control" style="width: 100px;">
 				    </div>
-				    
+				    <div class="form-group">
+					    <label>
+				        	<input type="checkbox" name="home" {!! $data->home==1 ? 'checked="checked"':'' !!}> Hiển thị trang chủ
+				    	</label>
+				    </div>
 				    <div class="form-group">
 					    <label>
 				        	<input type="checkbox" name="status" {!! (!isset($data->status) || $data->status==1)?'checked="checked"':'' !!}> Hiển thị

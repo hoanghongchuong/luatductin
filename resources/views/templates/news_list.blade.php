@@ -23,7 +23,7 @@
                 @foreach($news as $item)
                 <div class="item">
                     <div class="box-image-news">
-                        <a href="" title="">
+                        <a href="{{ route('getNewsDetail', $item->alias) }}" title="">
                             <img src="{{asset('upload/news/'.$item->photo)}}">
                         </a>
                     </div>

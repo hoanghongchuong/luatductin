@@ -15,6 +15,7 @@ class ContactController extends Controller {
 
 	public function getContact()
     {
+    	$data = DB::table('about')->where('com','lien-he')->first();
         // Cấu hình SEO
 		$title = "Liên hệ";
 		$keyword = "Liên hệ";
@@ -22,9 +23,8 @@ class ContactController extends Controller {
 		$img_share = '';
 		$com='lien-he';
 		
-		// $chinhanh = DB::table('lienket')->select()->where('status',1)->where('com','chi-nhanh')->orderBy('stt','asc')->get();
 		// End cấu hình SEO
-        return view('templates.contact_tpl', compact('banner_danhmuc','lien-he','keyword','description','title','com'));
+        return view('templates.contact_tpl', compact('data','lien-he','keyword','description','title','com'));
     }
 
     /**

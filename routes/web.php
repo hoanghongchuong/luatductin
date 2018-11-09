@@ -40,26 +40,16 @@ Route::get('ajax/province/{id}',['as'=>'loadDistrictByProvince', 'uses'=>'IndexC
 Route::get('sap-xep','IndexController@SapXep')->name('sapxep');
 
 // dang ky, dang nhap
-Route::get('signup','SignupController@signup');
-Route::post('signup', 'SignupController@postSignup')->name('postSignup');
-Route::get('login','LoginController@getLogin')->name('getLogin');
-Route::post('login','LoginController@postLogin')->name('postLogin');
-Route::get('logout','LoginController@logout');
+Route::get('dang-ky','MemberAuth\AuthController@getRegister')->name('member.register');
+Route::post('dang-ky', 'MemberAuth\AuthController@postRegister')->name('member.postRegister');
+Route::post('dang-nhap', 'MemberAuth\AuthController@login')->name('member.login');
+Route::get('logout', 'MemberAuth\AuthController@logout');
+
+// Route::get('login','LoginController@getLogin')->name('getLogin');
+// Route::post('login','LoginController@postLogin')->name('postLogin');
+// Route::get('logout','LoginController@logout');
 // gio hang
-Route::get('gio-hang',['as'=>'getCart', 'uses'=>'IndexController@getCart']);
-Route::post('cart/add', ['as' => 'addProductToCart', 'uses' => 'IndexController@addCart']);
 
-
-Route::post('cart/update',['as' => 'updateCart', 'uses' => 'IndexController@updateCart']);
-// Route::get('updatecart/{id}/{qty}',['as'=>'updatecart','uses'=>'IndexController@updatecart']);
-Route::get('xoa-gio-hang/{id}','IndexController@deleteCart');
-Route::post('gui-don-hang', ['as' =>'postOrder', 'uses'=> 'IndexController@postOrder']);
-Route::get('xoa-all','IndexController@deleteAllCart')->name('deleteCart');
-Route::get('dich-vu',['as'=>'getDichvu', 'uses'=>'IndexController@getDichvu']);
-Route::get('dich-vu/{id}.html',['as'=>'getDichVuDetail', 'uses'=>'IndexController@getDichVuDetail']);
-
-Route::get('tuyen-dung','IndexController@getTuyenDung')->name('getTuyenDung');
-Route::post('tuyen-dung',['as'=>'postTuyenDung', 'uses'=>'IndexController@postTuyenDung']);
 // Route::get('thu-vien-anh',['as'=>'getThuvienanh', 'uses'=>'IndexController@getThuvienanh']);
 // Route::get('hoi-vien',['as'=>'getHoivien', 'uses'=>'IndexController@getHoivien']);
 // Route::get('{id}.html',['as'=>'getProductDetail', 'uses'=>'IndexController@getProductDetail']);

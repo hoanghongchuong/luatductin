@@ -12,10 +12,11 @@
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">            
-            <li><a href="backend/newscate?type=bai-viet"><i class="fa fa-circle-o"></i> <span>Danh mục</span></a></li>
-            <li><a href="backend/news?type=bai-viet"><i class="fa fa-circle-o"></i> <span>Danh sách</span></a></li>  
+            <li class="{{ Request::segment(2) == 'newscate' ? 'active' : '' }}"><a href="backend/newscate?type=bai-viet"><i class="fa fa-circle-o"></i> <span>Danh mục</span></a></li>
+            <li class="{{ Request::segment(2) == 'news' ? 'active' : '' }}"><a href="backend/news?type=bai-viet"><i class="fa fa-circle-o"></i> <span>Danh sách</span></a></li>  
           </ul>
         </li>
+        <li><a href="backend/about/edit?type=lien-he"><i class="fa fa-envelope"></i> <span>Quản lý liên hệ</span></a></li>
         <!-- <li><a href="backend/news?type=tin-tuc"><i class="fa fa-circle-o"></i> <span>Quản lý tin tức</span></a></li> -->
         <!-- <li><a href="backend/news?type=du-an"><i class="fa fa-circle-o"></i> <span>Quản lý dự án</span></a></li>     -->
               
@@ -27,7 +28,7 @@
         <!-- <li><a href="backend/video"><i class="fa fa-circle-o"></i> <span>Video</span></a></li> -->       
         
         
-        <li><a href="backend/contact"><i class="fa fa-envelope"></i> <span>Quản lý liên hệ</span></a></li>
+        
         <!-- <li><a href="backend/newsletter?type=newsletter"><i class="fa fa-circle-o"></i> <span>Đăng ký nhận tin</span></a></li> -->
        
         

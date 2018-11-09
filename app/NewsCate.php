@@ -10,4 +10,24 @@ class NewsCate extends Model {
 
 	public $timestamps = true;
 
+	public function cateChilds()
+	{
+		return $this->hasMany('App\NewsCate', 'parent_id');
+	}
+
+	public function getNewsAttribute()
+    {
+    	$categoryIdArray = $this->getChildCategories([$this->id]);
+        return \App\News::whereIn('cate_id', $categoryIdArray)->paginate(10);
+    }
+
+    protected function getChildCategories($categoryArray = [])
+    {
+    	$childIdArray = NewsCate::select('id')->whereIn('parent_id', $categoryArray)->whereNotIn('id', $categoryArray)->get()->pluck('id')->toArray();
+    	if (!count($childIdArray)) {
+    		return $categoryArray;
+    	}
+    	$categoryArray = array_merge($categoryArray, $childIdArray);
+    	return $this->getChildCategories($categoryArray);
+    }
 }
