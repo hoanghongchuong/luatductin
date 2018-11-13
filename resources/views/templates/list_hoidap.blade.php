@@ -6,20 +6,26 @@
             <ul>
                 <li><a href="{{ url('') }}" title=""><img src="{{ asset('public/images/ico_title.png')}}">Trang chủ </a></li>
                 <li><a href="{{url('hoi-dap')}}" title=""><img src="{{ asset('public/images/icon_titlemem.gif')}}">Hỏi đáp </a> </i></li>
-                <li><a href="" title=""><img src="{{ asset('public/images/icon_titlemem.gif')}}">Dân sự</a></li>
+                <!-- <li><a href="" title=""><img src="{{ asset('public/images/icon_titlemem.gif')}}">Dân sự</a></li> -->
             </ul>
         </div>
         <div class="content_box_hoidap">
             <div class="box-search-hoidap">
                 <div class="_item">
-                    <form action="" method="get" accept-charset="utf-8">
-                        <input type="text" placeholder="Từ khóa tìm kiếm" class="input-search-hoidap" name="">
+                    <form action="{{ route('searchQuestion') }}" method="get" accept-charset="utf-8">
+                        <input type="text" placeholder="Từ khóa tìm kiếm" class="input-search-hoidap" name="search_question">
                         <input type="submit" class="btn-search-hoidap" id="" name="">
                     </form>
                 </div>
             </div>
-            <p class="slogan-hoidap">Đặt câu hỏi cho luật sư tư vấn bằng cách chọn một chuyên mục bên dưới</p>
-            <p><a href="#" title="" class="btn btn-danger">Hỏi luật sư</a></p>
+            <p class="slogan-hoidap">Đặt câu hỏi cho luật sư tư vấn bằng cách chọn một chuyên mục bên dưới
+                @if(!Auth::guard('member')->check())
+                <span style="color: red">(<a href="javascript:;" style="color: red" data-toggle="modal" data-target="#myModal">Đăng nhập để gửi câu hỏi cho luật sư</a>)</span>
+                @endif
+            </p>
+            @if(Auth::guard('member')->check())
+            <p><a href="{{url('dat-cau-hoi')}}" title="" class="btn btn-danger">Hỏi luật sư</a></p>
+            @endif
             <h1 class="title-hoidap" style="margin-bottom: 0px;">Tư vấn của luật sư</h1>
             <div class="box-table">
                 <table class="table table-hover table-bordered">

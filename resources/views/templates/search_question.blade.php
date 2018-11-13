@@ -6,7 +6,7 @@
             <ul>
                 <li><a href="{{ url('') }}" title=""><img src="{{ asset('public/images/ico_title.png')}}">Trang chủ </a></li>
                 <li><a href="{{url('hoi-dap')}}" title=""><img src="{{ asset('public/images/icon_titlemem.gif')}}">Hỏi đáp </a> </i></li>
-                <!-- <li><a href="" title=""><img src="{{ asset('public/images/icon_titlemem.gif')}}">Dân sự</a></li> -->
+                <li><a href="" title=""><img src="{{ asset('public/images/icon_titlemem.gif')}}">Tìm kiếm</a></li>
             </ul>
         </div>
         <div class="content_box_hoidap">
@@ -26,28 +26,24 @@
             @if(Auth::guard('member')->check())
             <p><a href="{{url('dat-cau-hoi')}}" title="" class="btn btn-danger">Hỏi luật sư</a></p>
             @endif
-            <h1 class="title-hoidap">Tư vấn của luật sư</h1>
+            <h1 class="title-hoidap" style="margin-bottom: 0px;">Tư vấn của luật sư</h1>
             <div class="box-table">
                 <table class="table table-hover table-bordered">
                     <!-- <caption>table title and/or explanatory text</caption> -->
                     <thead style="background-color: #bccbd8; ">
                         <tr>
-                            <th style="text-align: left;">Chuyên mục</th>
-                            <th style="text-align: center;">Số câu hỏi</th>
-                            <th style="text-align: center;">Bài viết mới</th>
+                            <th style="text-align: left;">Tiêu đề</th>
+                            <th style="text-align: center;">Người gửi</th>
+                            <th style="text-align: center;">Ngày gửi</th>
+                            <!-- <th style="text-align: center;">Bài viết mới</th> -->
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($categories as $cate)
-                        <?php $post = DB::table('questions')->where('cate_id', $cate->id)->where('status',1)->orderBy('id','desc')->first();?>
+                        @foreach($data as $item)
                         <tr>
-                            <td>
-                                <a href="{{url('hoi-dap/'.$cate->alias)}}" title="{{$cate->name}}">{{$cate->name}}</a>
-                            </td>
-                            <td style="text-align: center;">{{$cate->questions->count()}}</td>
-                            <td>
-                                <a href="{{route('detail.question', @$post->alias)}}" title="">{{ @$post->name }}</a>
-                            </td>
+                            <td><a href="{{route('detail.question', $item->alias)}}" title="{{ $item->name }}">{{ $item->name }}</a></td>
+                            <td>{{ $item->member->name }}</td>
+                            <td>{{ date('d/m/Y', strtotime($item->created_at)) }}</td>
                         </tr>
                         @endforeach
                     </tbody>

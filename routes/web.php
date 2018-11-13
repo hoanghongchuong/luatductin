@@ -33,6 +33,7 @@ Route::get('du-an/{alias}', 'IndexController@listProject');
 
 
 Route::get('tim-kiem',['as'=>'search', 'uses'=>'IndexController@search']);
+Route::get('search/question', 'IndexController@searchQuestion')->name('searchQuestion');
 Route::post('newsletter',['as'=>'postNewsletter', 'uses'=>'IndexController@postNewsletter']);
 
 

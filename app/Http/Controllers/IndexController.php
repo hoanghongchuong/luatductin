@@ -305,4 +305,10 @@ class IndexController extends Controller {
 		// dd($data);
 		return view('templates.search_tpl', compact('data','hot_news', 'description', 'title', 'img_share', 'search', 'com'));
 	}
+	public function searchQuestion(Request $req)
+	{
+		$search = $req->search_question;
+		$data = Question::where('name','LIKE', '%' . $search . '%')->orderBy('id','desc')->get();
+		return view('templates.search_question', compact('data'));
+	}
 }
