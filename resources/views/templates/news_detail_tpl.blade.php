@@ -29,6 +29,9 @@
             <div class="contetn_post_detail">
                 {!! $news_detail->content !!}
             </div>
+            <div class="comment-facebook">
+                <div class="fb-comments" data-href="{{ URL::Current() }}" data-width="100%" data-numposts="2"></div>
+            </div>
             <div class="post_same_cate">
                 <p class="title">Bài viết liên quan</p>
                 <ul>

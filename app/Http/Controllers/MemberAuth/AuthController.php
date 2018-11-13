@@ -15,6 +15,8 @@ use DB,Hash;
  */
 class AuthController extends Controller
 {
+    use AuthenticatesUsers;
+
 	protected $guard;
 	function __construct(Member $member)
 	{
@@ -64,4 +66,35 @@ class AuthController extends Controller
     	$this->Member->create($data);
     	return back()->with('message', 'Đăng ký thành công');
     }
+
+    public function login(Request $req)
+    {
+        $auth = [
+            'username' => $req->username,
+            'password' => $req->password,
+            // 'active' => Admin::ACTIVE,
+        ];
+        // dd($this->guard);
+        $remember = $req->remember ? true : false;
+        if($this->guard->attempt($auth, $remember)){
+            return redirect()->back()->with([
+                    'toastr_lvl' => 'success',
+                    'toastr_msg' => 'Đăng nhập thành công !'
+                ]);
+            
+            // return 'Đăng nhập thành công';            
+        }else{
+           return redirect()->back()->with([
+                'toastr_lvl' => 'error',
+                'toastr_msg' => 'Sai tên đăng nhập hoặc mật khẩu !'
+            ]);
+        }
+    }
+
+    public function logout()
+    {
+        $this->guard->logout();
+        return redirect()->back()->with('info','Đăng xuất thành công');
+    }
+
 }

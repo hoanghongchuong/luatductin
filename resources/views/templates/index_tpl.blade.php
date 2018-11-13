@@ -46,9 +46,9 @@ $slider = DB::table('slider')->select()->where('status',1)->where('com','gioi-th
 		<div class="box-search">
 			<p class="title-search">Tìm kiếm</p>
 			<div class="search-text" id="search_text">
-				<form action="" method="get" accept-charset="utf-8">
+				<form action="{{ route('search') }}" method="get" accept-charset="utf-8">
 					<div class="form-group">
-						<input type="text" placeholder="Từ khóa tìm kiếm" class="input-search text" name="">
+						<input type="text" placeholder="Từ khóa tìm kiếm" class="input-search text" name="txtSearch">
 						<input type="submit" class="btn-search" id="search_btn" name="">
 					</div>
 				</form>

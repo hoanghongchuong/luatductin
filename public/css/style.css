@@ -797,3 +797,48 @@ footer{
 	text-align: center;
 	margin-top: 15px;
 }
+.modal-body{
+	width: 60%;
+	/*text-align: center;*/
+	margin: 0 auto;
+}
+.content-question{
+	width: 100%;
+	float: left;
+	margin-top: 30px;
+}
+.content-question h1{
+	margin-top: 0px !important;
+}
+.discuss{
+	width: 100%;
+	float: left;
+}
+.discuss .title{
+	font-size: 18px;
+	font-weight: bold;
+	color: #0A5B8F;
+	padding-left: 10px;
+	margin-bottom: 16px;
+
+}
+.traloi{
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	/*margin-bottom: 20px;*/
+	width: 100%;
+    float: left;
+    display: flex;
+}
+.traloi .leftx{
+	border-right: 1px solid #ccc;
+	padding-top: 10px;
+	/*text-align: center;*/
+}
+.traloi .content{
+	padding-top: 10px;
+}
+.modal-body-traloi{
+	margin-left: 10px;
+	margin-right: 10px;
+}

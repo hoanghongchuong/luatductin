@@ -1,6 +1,6 @@
 @extends('admin.master')
 @section('content')
-@section('controller','Danh mục '.$trang)
+@section('controller','Hỏi đáp')
 @section('action','List')
 <!-- Content Header (Page header) -->
 <script type="text/javascript">
@@ -18,7 +18,7 @@
       listid=listid.substr(1);   //alert(listid);
       if (listid=="") { alert("Bạn chưa chọn mục nào"); return false;}
       hoi= confirm("Bạn có chắc chắn muốn xóa?");
-      if (hoi==true) document.location = homeUrl()+"/backend/newscate/"+listid+"/delete_list?type={{@$_GET[type]}}";
+      if (hoi==true) document.location = homeUrl()+"/backend/productcate/"+listid+"/delete_list";
     });
   });
 </script>
@@ -52,9 +52,7 @@
               <tr>
                 <th style="width: 20px;"><input type="checkbox" name="chonhet" class="minimal" id="chonhet" /></th>
                 <th class="text-center with_dieuhuong">Stt</th>
-                @if($_GET['type'] !='cau-hoi')
-                <th>Danh mục cha</th>
-                @endif
+                <!-- <th>Danh mục cha</th> -->
                 <th>Tên danh mục</th>
                 <!-- <th class="text-center with_dieuhuong">Hiển thị</th> -->
                 <th class="text-center with_dieuhuong">Sửa</th>
@@ -66,32 +64,32 @@
               <tr>
                 <td><input type="checkbox" name="chon" id="chon" value="{{$item->id}}" class="chon" /></td>
                 <td class="text-center with_dieuhuong">{{$k+1}}</td>
-                @if($_GET['type'] !='cau-hoi')
-                <td>
-                  <?php  $parent = DB::table('news_categories')->where('id', $item->parent_id)->where('com', @$_GET['type'])->first();
-                  ?>
-                  @if(!empty($parent))
-                    {{ $parent->name }}
-                  @else
-                    {{ 'None' }}
-                  @endif
-                </td>
-                @endif
-                <td>{{$item->name}}<br>
                 
-               </td>
+                <!-- <td>
+                <?php  $parent = DB::table('product_categories')->where('id', $item->parent_id)->first();
+                ?>
+                @if(!empty($parent))
+                  {{ $parent->name }}
+                @else
+                  {{ 'None' }}
+                @endif
+                </td> -->
+                <td>
+                  <p>{{$item->name}}</p>
+                   
+                </td>
                 <!-- <td class="text-center with_dieuhuong">
                   @if($item->status>0)
-                    <a href="backend/newscate/edit?id={{$item->id}}&hienthi={{ time() }}&type={{ @$_GET['type'] }}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Bật</a>
+                    <a href="backend/productcate/edit?id={{$item->id}}&hienthi={{ time() }}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Bật</a>
                   @else
-                    <a href="backend/newscate/edit?id={{$item->id}}&hienthi={{ time() }}&type={{ @$_GET['type'] }}" class="btn btn-danger btn-xs"><i class="fa fa-eye"></i> Tắt</a>
+                    <a href="backend/productcate/edit?id={{$item->id}}&hienthi={{ time() }}" class="btn btn-danger btn-xs"><i class="fa fa-eye"></i> Tắt</a>
                   @endif
                 </td> -->
                 <td class="text-center with_dieuhuong">
-                  <i class="fa fa-pencil fa-fw"></i><a href="backend/newscate/edit?id={{$item->id}}&type={{ @$_GET['type'] }}">Edit</a>
+                  <i class="fa fa-pencil fa-fw"></i><a href="backend/productcate/edit?id={{$item->id}}">Edit</a>
                 </td>
                 <td class="text-center">
-                  <i class="fa fa-trash-o fa-fw"></i><a onClick="if(!confirm('Xác nhận xóa')) return false;" href="backend/newscate/{{$item->id}}/delete?type={{ @$_GET['type'] }}">Delete</a>
+                  <i class="fa fa-trash-o fa-fw"></i><a onClick="if(!confirm('Xác nhận xóa')) return false;" href="backend/productcate/{{$item->id}}/delete">Delete</a>
                 </td>
               </tr>
               @endforeach
@@ -100,9 +98,9 @@
         </div><!-- /.box-body -->
         <div class="box-footer col-md-12">
           <div class="col-md-6">
-            <input type="button" onclick="javascript:window.location='backend/newscate/add?type={{ @$_GET[type] }}'" value="Thêm" class="btn btn-primary" />
+            <input type="button" onclick="javascript:window.location='backend/productcate/add'" value="Thêm" class="btn btn-primary" />
             <button type="button" id="xoahet" class="btn btn-success">Xóa</button>
-            <input type="button" value="Thoát" onclick="javascript:window.location='backend'" class="btn btn-danger" />
+            <input type="button" value="Thoát" onclick="javascript:window.location='admin'" class="btn btn-danger" />
 
           </div>
         </div>

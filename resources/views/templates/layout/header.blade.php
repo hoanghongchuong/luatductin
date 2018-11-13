@@ -10,10 +10,17 @@
             <p class="address_header"><i class="fa fa-map-marker"></i> &nbsp; {{$setting->address}}</p>
             <p class="phone-header"><i class="fa fa-phone"></i> &nbsp; {{$setting->phone}}</p>
         </div>
+        @if(Auth::guard('member')->check())
+        <div class="register_block">
+            <a href="#">{{ Auth::guard('member')->user()->username }}</a>
+            <a href="{{ route('member.logout') }}">Đăng xuất</a>
+        </div>
+        @else
         <div class="register_block">
             <a href="{{ route('member.register') }}">Đăng ký</a>
             <a href="javascript:;" data-toggle="modal" data-target="#myModal">Đăng nhập</a>
         </div>
+        @endif
     </div>      
     <div class="top_header_mobile visible-xs visible-sm">
         <div class="left">
@@ -30,7 +37,7 @@
 </header><!-- /header -->
 <div class="menu">         
     <ul class="navi">
-        <li class="active"><a href="{{url('')}}">Trang chủ</a></li>
+        <li class="@if(@$com =='index')active @endif"><a href="{{url('')}}">Trang chủ</a></li>
         @foreach($category_header as $category)
         <li>
             <a href="{{route('getListNews', $category->alias)}}">{{$category->name}}</a>
@@ -45,7 +52,8 @@
             @endif
         </li>
         @endforeach
-        <li><a href="{{url('lien-he')}}" title="">Liên hệ</a></li>
+        <li class="@if(@$com =='hoi-dap')active @endif"><a href="{{url('hoi-dap')}}" title="">Hỏi đáp</a></li>
+        <li class="@if(@$com =='lien-he')active @endif"><a href="{{url('lien-he')}}" title="">Liên hệ</a></li>
     </ul>            
 </div>
 
@@ -57,25 +65,25 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" style="text-align: center;">Đăng nhập</h4>
             </div>
-            <form action="" method="get" accept-charset="utf-8">
-              
+            <form action="{{ route('member.login') }}" method="post" accept-charset="utf-8">
+                {{ csrf_field() }}
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="">Tên đăng nhập</label>
-                        <input type="text" name="username" class="form-control">
+                        <input type="text" name="username" required="" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="">Mật khẩu</label>
-                        <input type="password" name="password" class="form-control">
+                        <input type="password" name="password" required class="form-control">
                     </div>
                     <div class="form-group" style="text-align: center;">                   
                         <input type="submit" name="" value="Đăng nhập" class="btn btn-primary">
                     </div>
                 </div>
             </form>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+            </div> -->
         </div>
 
     </div>

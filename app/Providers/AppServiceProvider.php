@@ -15,10 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $zalo = new Zalo(ZaloConfig::getInstance()->getConfig());
-        $helper = $zalo -> getRedirectLoginHelper();
-        $callBackUrl = "https://software.gco.vn/";
-        $accessToken = $helper->getAccessToken($callBackUrl); // get access token
+        
     }
 
     /**

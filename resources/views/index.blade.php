@@ -38,6 +38,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public/css/bootstrap.min.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('public/css/font-awesome.min.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('public/css/jquery.bxslider.css')}}" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="{{ asset('public/js/jquery-2.1.4.min.js')}}"></script>
         <script type="text/javascript">
             function baseUrl(){
@@ -97,6 +98,17 @@
     <script src="{{ asset('public/js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('public/js/owl.carousel.min.js')}}"></script>
     <script src="{{ asset('public/js/jquery.bxslider.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="{!! asset('public/admin_assets/plugins/tinymce/tinymce.min.js') !!}"></script>
+    
     <script src="{{ asset('public/js/script.js')}}"></script>
+
+   
+        @if(Session::has('toastr_msg'))
+            <script type='text/javascript'>
+                toastr["{!! Session::get('toastr_lvl') !!}"]("{!! Session::get('toastr_msg') !!}")
+            </script>
+        @endif
+  
 </body>
 </html>

@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
-class Member extends Model
+use Illuminate\Foundation\Auth\User as Authenticatable;
+class Member extends Authenticatable
 {
     protected $table = 'members';
 

@@ -43,8 +43,17 @@ Route::get('sap-xep','IndexController@SapXep')->name('sapxep');
 Route::get('dang-ky','MemberAuth\AuthController@getRegister')->name('member.register');
 Route::post('dang-ky', 'MemberAuth\AuthController@postRegister')->name('member.postRegister');
 Route::post('dang-nhap', 'MemberAuth\AuthController@login')->name('member.login');
-Route::get('logout', 'MemberAuth\AuthController@logout');
+Route::get('logout', 'MemberAuth\AuthController@logout')->name('member.logout');
 
+
+Route::get('hoi-dap', 'IndexController@hoiDap')->name('hoidap');
+Route::get('hoi-dap/{alias}.html', 'IndexController@detailQuestion')->name('detail.question');
+Route::get('hoi-dap/{cate}', 'IndexController@listCate')->name('listhoidap');
+
+
+Route::post('post-answer', 'IndexController@postAnswer')->name('postAnswer');
+Route::get('dat-cau-hoi', 'IndexController@getQuestsion')->name('getQuestion');
+Route::post('dat-cau-hoi', 'IndexController@postQuestsion')->name('postQuestion');
 // Route::get('login','LoginController@getLogin')->name('getLogin');
 // Route::post('login','LoginController@postLogin')->name('postLogin');
 // Route::get('logout','LoginController@logout');
@@ -81,7 +90,24 @@ Route::group(['middleware' =>'authen', 'prefix' => 'backend'], function(){
 		Route::post('updateinfo',['as'=>'admin.users.updateinfo','uses'=>'Admin\UsersController@updateinfo']);
 	});
 
+	Route::group(['prefix' => 'productcate'], function(){
+		Route::get('/',['as'=>'admin.productcate.index','uses'=>'Admin\ProductCateController@getDanhSach']);
+		Route::get('add',['as'=>'admin.productcate.getAdd','uses'=>'Admin\ProductCateController@getAdd']);
+		Route::post('postAdd',['as'=>'admin.productcate.postAdd','uses'=>'Admin\ProductCateController@postAdd']);
+		Route::get('edit',['as'=>'admin.productcate.getEdit','uses'=>'Admin\ProductCateController@getEdit']);
+		Route::post('edit',['as'=>'admin.productcate.update','uses'=>'Admin\ProductCateController@update']);
+		Route::get('{id}/delete',['as'=>'admin.productcate.getDelete','uses'=>'Admin\ProductCateController@getDelete']);
+		Route::get('{id}/delete_list',['as'=>'admin.productcate.getDeleteList','uses'=>'Admin\ProductCateController@getDeleteList']);
+	});
 
+	Route::group(['prefix' => 'question'], function(){
+		Route::get('/', 'Admin\QuestionController@index')->name('question.index');
+		Route::get('edit/{id}', 'Admin\QuestionController@edit')->name('question.edit');
+		Route::post('edit/{id}', 'Admin\QuestionController@postEdit')->name('question.postEdit');
+		Route::get('delete/{id}', 'Admin\QuestionController@delete')->name('question.delete');
+
+		Route::post('access','Admin\QuestionController@access')->name('question.access');
+	});
 	Route::group(['prefix' => 'orders'], function(){
 		Route::get('/',['as'=>'admin.bill.index','uses'=>'Admin\BillController@getList']);
 		// Route::get('add',['as'=>'admin.obill.getAdd','uses'=>'Admin\BillController@getAdd']);

@@ -104,11 +104,13 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
+        
+        'members' => [
+            'provider' => 'members',
+            'table'    => 'password_resets',
+            'expire'   => 60,
+        ]
     ],
-    'members' => [
-        'provider' => 'members',
-        'table'    => 'password_resets',
-        'expire'   => 60,
-    ]
+    
 
 ];

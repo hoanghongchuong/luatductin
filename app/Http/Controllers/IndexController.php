@@ -6,7 +6,11 @@ use Carbon\Carbon;
 use App\NewsLetter;
 use DB,Cache,Mail;
 use App\News;
+use App\ProductCate;
 use App\NewsCate;
+use App\Question;
+use App\Member;
+use App\Answer;
 class IndexController extends Controller {
 	protected $setting = NULL;
 
@@ -45,8 +49,7 @@ class IndexController extends Controller {
 	 * @return Response
 	 */
 	public function index()
-	{
-			
+	{			
 		$tintuc_moinhat = DB::table('news')->select()->where('status',1)->where('com','bai-viet')->orderBy('id','desc')->take(4)->get();
 
 		$com='index';		
@@ -60,7 +63,7 @@ class IndexController extends Controller {
 		// End cấu hình SEO
 		$img_share = asset('upload/hinhanh/'.$setting->photo);
 
-		return view('templates.index_tpl', compact('title', 'description', 'keyword', 'setting', 'about','hot_news','tintuc_moinhat','categories'));
+		return view('templates.index_tpl', compact('title', 'description', 'keyword', 'setting', 'about','hot_news','tintuc_moinhat','categories','com'));
 	}
 	
 	public function getAbout()
@@ -207,5 +210,99 @@ class IndexController extends Controller {
 		}else{
 			return redirect()->route('getErrorNotFount');
 		}
+	}
+
+	public function hoidap()
+	{
+		$categories = ProductCate::all();
+		$title = 'Hỏi đáp';
+		$com='hoi-dap';
+		return view('templates.hoidap', compact('categories','title','com'));
+	}
+	public function listCate($cate)
+	{
+		$cateQuestion = ProductCate::select('id')->where('alias', $cate)->first();
+		$questions = Question::where('cate_id', $cateQuestion->id)->orderBy('id','desc')->paginate(10);
+		// dd($questions);
+		return view('templates.list_hoidap', compact('questions'));
+	}
+	public function detailQuestion($alias)
+	{
+		$data = Question::where('alias', $alias)->first();
+		$answers = Answer::where('question_id', $data->id)->orderBy('id','desc')->get();		
+		$title = $data->name;
+		return view('templates.detail_question', compact('data','title', 'answers'));
+	}
+
+	public function getQuestsion()
+	{
+		$categories = ProductCate::all();
+		return view('templates.datcauhoi', compact('categories'));
+	}
+	public function postQuestsion(Request $req)
+	{
+		$this->validate($req, 
+			[
+				'name' => 'required',
+				'content' => 'required',
+				'cate_id' => 'required',
+			],
+			[
+				'name.required' => 'Chưa nhập tiêu đề câu hỏi',
+				'content.required' => 'Chưa nhập nội dung',
+				'cate_id.required' => 'Chưa chọn chủ đề'
+			]
+			);
+		$data = new Question;
+		
+		if(Auth::guard('member')->check()){
+			$data->name = $req->name;
+			$data->content = $req->content;
+			$data->cate_id = $req->cate_id;
+			$data->alias = str_slug($req->name);
+			$data->member_id = Auth::guard('member')->user()->id;
+			$data->save();
+			return back()->with('message','Gửi câu hỏi thành công');
+		}
+		else{
+			return back()->with('message','Bạn chưa đăng nhập');
+		}		
+	}
+
+	public function postAnswer(Request $req)
+	{
+		if(Auth::guard('member')->check()){
+			$data = new Answer;
+			$data->content = $req->content;
+			$data->question_id = $req->question_id;
+			$data->member_id = Auth::guard('member')->user()->id;
+			if($data->content !=''){
+				$data->save();
+				return back()->with([
+					'toastr_lvl' => 'success',
+					'toastr_msg' => 'Gửi thành công !'
+				]);
+			}
+			else{
+				return back()->with([
+					'toastr_lvl' => 'error',
+					'toastr_msg' => 'Chưa nhập nội dung câu trả lời !'
+				]);
+			}
+			
+		}
+	}
+
+	public function search(Request $request) {
+		$search = $request->txtSearch;
+		$hot_news = DB::table('news')->where('noibat',1)->where('status',1)->take(20)->orderBy('id','desc')->get();
+		$title = "Tìm kiếm: " . $search;
+
+		$description = "Tìm kiếm: " . $search;
+		$img_share = '';
+		$com = 'search';
+		$data = DB::table('news')->where('name', 'LIKE', '%' . $search . '%')->orderBy('id', 'DESC')->paginate(20);
+		// dd($data);
+		return view('templates.search_tpl', compact('data','hot_news', 'description', 'title', 'img_share', 'search', 'com'));
 	}
 }

@@ -26,4 +26,10 @@ class ProductCate extends Model {
     	return $this->getChildCategories($categoryArray);
     }
 
+    public function questions()
+    {
+        return $this->hasMany('App\Question', 'cate_id')->where('status',1);
+    }
+
+    
 }

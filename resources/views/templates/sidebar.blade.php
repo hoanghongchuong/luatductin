@@ -1,10 +1,13 @@
-<?php $hot_news = DB::table('news')->where('noibat',1)->where('status',1)->take(20)->orderBy('id','desc')->get(); ?>
+<?php 
+    $hot_news = DB::table('news')->where('noibat',1)->where('status',1)->take(20)->orderBy('id','desc')->get();
+    $category_hoidap = DB::table('product_categories')->get();
+?>
 <div class="box-search">
     <p class="title-search">Tìm kiếm</p>
     <div class="search-text" id="search_text">
-        <form action="" method="get" accept-charset="utf-8">
+        <form action="{{ route('search') }}" method="get" accept-charset="utf-8">
             <div class="form-group">
-                <input type="text" placeholder="Từ khóa tìm kiếm" class="input-search text" name="">
+                <input type="text" placeholder="Từ khóa tìm kiếm" required="" class="input-search text" name="txtSearch">
                 <input type="submit" class="btn-search" id="search_btn" name="">
             </div>
         </form>
@@ -16,12 +19,9 @@
     <img src="{{asset('public/images/hoidap.png')}}" alt="">
     <div class="list-cate">
         <ul>
-            <li><a href="">Dân sự</a></li>
-            <li><a href="">Hình sự</a></li>
-            <li><a href="">Hôn nhân</a></li>
-            <li><a href="">Doanh nghiệp</a></li>
-            <li><a href="">Đất đai</a></li>
-            <li><a href="">Lao động</a></li>
+            @foreach($category_hoidap as $c)
+            <li><a href="{{ url('hoi-dap', $c->alias) }}">{{ $c->name }}</a></li>
+            @endforeach
         </ul>
     </div>
 </div>

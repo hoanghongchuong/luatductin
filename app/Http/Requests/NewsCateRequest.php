@@ -23,14 +23,14 @@ class NewsCateRequest extends Request {
 	public function rules()
 	{
 		return [
-			'txtName' => 'required|unique:news_categories,name',
+			// 'txtName' => 'required|unique:news_categories,name',
 		];
 	}
 	public function messages()
 	{
 		return [
 			'txtName.required' => 'Bạn chưa nhập tên danh mục',
-            'txtName.unique' => 'Tên danh mục bị trùng, mời nhập lại',
+            // 'txtName.unique' => 'Tên danh mục bị trùng, mời nhập lại',
             'txtAlias.required' => 'Bạn chưa nhập link tĩnh',
 		];
 	}

@@ -1,6 +1,6 @@
 @extends('admin.master')
 @section('content')
-@section('controller','Danh mục '.$trang)
+@section('controller','Product Categories')
 @section('action','Add')
 
 <!-- Content Header (Page header) -->
@@ -22,7 +22,7 @@
     	@include('admin.messages_error')
         <div class="box-body">
         	
-        	<form name="frmAdd" method="post" action="{!! route('admin.newscate.postAdd') !!}" enctype="multipart/form-data">
+        	<form name="frmAdd" method="post" action="{!! route('admin.productcate.postAdd') !!}" enctype="multipart/form-data">
         		<input type="hidden" name="_token" value="{!! csrf_token() !!}" />
 	      		
       			<div class="nav-tabs-custom">
@@ -37,21 +37,19 @@
 		                  			<!-- <div class="form-group col-md-12 @if ($errors->first('fImages')!='') has-error @endif">
 										<label for="file">File ảnh</label>
 								     	<input type="file" id="file" name="fImages" >
-								    	<p class="help-block">Width:800px - Height: 326px</p>
+								    	<p class="help-block">Width:225px - Height: 162px</p>
 								    	@if ($errors->first('fImages')!='')
 								      	<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> {!! $errors->first('fImages'); !!}</label>
 								      	@endif
 									</div> -->
-									@if($_GET['type'] !='cau-hoi')
-			                    	<div class="form-group">
+			                    	<!-- <div class="form-group">
 								      	<label for="ten">Danh mục cha</label>
-								      	<select name="txtNewsCate" class="form-control">
+								      	<select name="txtProductCate" class="form-control">
 
 								      		<option value="0">Chọn danh mục</option>
-								      		<?php cate_news_parent($parent); ?>
+								      		<?php cate_parent($parent); ?>
 								      	</select>
-									</div>
-									@endif
+									</div> -->
 									<div class="clearfix"></div>
 							    	<div class="form-group @if ($errors->first('txtName')!='') has-error @endif">
 								      	<label for="ten">Tên</label>
@@ -67,34 +65,11 @@
 								      	<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> {!! $errors->first('txtAlias'); !!}</label>
 								      	@endif
 									</div>
-									
-									
-									
-									<input type="hidden" name="txtCom" value="{{ @$_GET['type'] }}"/>
+									<!-- <div class="form-group">
+										<label for="">Mô tả</label>
+										<textarea name="description" rows="5" id="txtContent" class="form-control"></textarea>
+									</div> -->
 								</div>
-								<div class="col-md-6 col-xs-12">
-									<div class="col-md-6 col-xs-12">
-										@if($_GET['type']=='dich-vu')
-										<div class="form-group col-md-12 @if ($errors->first('fImagesBg')!='') has-error @endif">
-											<label for="file">File background</label>
-									     	<input type="file" id="file" name="fImagesBg" >
-									    	<p class="help-block">Width:225px - Height: 162px</p>
-									    	@if ($errors->first('fImagesBg')!='')
-									      	<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> {!! $errors->first('fImagesBg'); !!}</label>
-									      	@endif
-										</div>
-										@endif
-									</div>
-								</div>
-								@if($_GET['type'] !='cau-hoi')
-								<div class="col-md-12">
-									<div class="form-group">
-								      	<label for="mota">Mô tả</label>
-								      	<textarea name="txtDesc" rows="5" id="txtContent" class="form-control"></textarea>
-									</div>
-									
-								</div>
-								@endif
 							</div>
 							<div class="clearfix"></div>
 	                  	</div><!-- /.tab-pane -->
@@ -121,17 +96,15 @@
 	            </div>
 	            <div class="clearfix"></div>
 			    <div class="col-md-6">
-			    	<div class="form-group hidden">
+			    	<!-- <div class="form-group">
 					      <label for="ten">Số thứ tự</label>
 					      <input type="number" min="1" name="stt" value="{!! count($parent)+1 !!}" class="form-control" style="width: 100px;">
-				    </div>
-				    @if($_GET['type'] !='cau-hoi')
-				    <div class="form-group">
-				    	<label>
-				        	<input type="checkbox" name="home"> Hiển thị trang chủ
+				    </div> -->
+				   <!--  <div class="form-group">
+					    <label>
+				        	<input type="checkbox" name="noibat"> Nổi bật
 				    	</label>
-				    </div>
-				    @endif
+				    </div> -->
 				    <div class="form-group">
 					    <label>
 				        	<input type="checkbox" name="status" checked="checked"> Hiển thị
@@ -144,7 +117,7 @@
 			    	<div class="row">
 						<div class="col-md-6">
 					    	<button type="submit" class="btn btn-primary">Lưu</button>
-					    	<button type="button" onclick="javascript:window.location='backend/newscate?type={{ @$_GET[type] }}'" class="btn btn-danger">Thoát</button>
+					    	<button type="button" onclick="javascript:window.location='backend/productcate'" class="btn btn-danger">Thoát</button>
 				    	</div>
 			    	</div>
 			  	</div>
