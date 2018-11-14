@@ -10,7 +10,7 @@ class Answer extends Model
 
     public function admin()
     {
-    	return $this->hasOne('App\User','id', 'admin_id');
+    	return $this->hasOne('App\Admin','id', 'admin_id');
     }
     public function member()
     {

@@ -33,11 +33,15 @@
         		<div class="col-md-3 leftx">
         			
         			@if($item->member_id)
-        			<strong>{{ $item->member->name }}</strong>
+                    <p style="text-align: center;"><img src="{{ asset('public/images/avatar.png') }}" width="60px;"></p>
+        			<strong style="font-size: 13px;">{{ $item->member->name }}</strong>
         			@endif
-        			@if($item->admin_id)        			
-        			<strong>{{ $item->admin->name }}</strong>
-        			<p style="color: #DB1E9C; font-size: 15px; font-weight: bold">Luật sư</p>
+        			@if($item->admin_id !='')
+                               	
+                        <p style="text-align: center;"><img src="{{ asset(@$item->admin->avatar) }}" onerror="this.src='{{asset('public/images/avatar.png')}}'" width="60px"></p>		
+            			<strong style="font-size: 13px;">{{ $item->admin->name }}</strong>
+            			<p style="color: #DB1E9C; font-size: 13px; font-weight: bold;text-align: center;">Luật sư</p>
+                        
         			@endif
         		</div>
 				<div class="content col-md-9">{!! $item->content !!}</div>

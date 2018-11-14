@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Admin;
+use App\Answer;
 use App\Authorization;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -104,9 +105,23 @@ class AdminController extends Controller
      * @return [type]     [description]
      */
     public function delete($id)
-    {
-    	$data = $this->Admin->findOrFail($id);
-    	$data->delete();
+    {    	
+        try{
+            DB::beginTransaction();
+            if($id){
+                $data = $this->Admin->findOrFail($id);
+                $answer = Answer::where('admin_id',$id)->first();
+                $data->delete();
+                $answer->delete();
+            }
+           
+            DB::commit();
+        }catch(Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('message', 'Lỗi hệ thống');
+        }
+    	// $data->delete();
+
     	return back()->with('message','Xóa thành công');
     }
 

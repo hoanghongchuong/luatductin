@@ -33,7 +33,7 @@
 	            		<div class="box-footer-answer">
 	            			<span>Người trả lời: 
 								@if($item->admin_id)
-	            				<strong>{{ $item->admin->name }}</strong>
+	            				<strong>{{ @$item->admin->name }}</strong>
 								@endif
 								@if($item->member_id)
 								<strong>{{ $item->member->name }}</strong>

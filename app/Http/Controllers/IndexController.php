@@ -229,7 +229,8 @@ class IndexController extends Controller {
 	public function detailQuestion($alias)
 	{
 		$data = Question::where('alias', $alias)->first();
-		$answers = Answer::where('question_id', $data->id)->orderBy('id','desc')->get();		
+		$answers = Answer::where('question_id', $data->id)->orderBy('id','desc')->get();
+				
 		$title = $data->name;
 		return view('templates.detail_question', compact('data','title', 'answers'));
 	}
