@@ -53,7 +53,7 @@ $slider = DB::table('slider')->select()->where('status',1)->where('com','gioi-th
 					</div>
 				</form>
 			</div>
-			<p class="example_vd"><strong style="font-size: 12px;">VD:</strong> <a href="" title="">Tư vấn pháp luật,</a> <a href="" title="">Luật tranh tụng,</a></p>
+			<!-- <p class="example_vd"><strong style="font-size: 12px;">VD:</strong> <a href="" title="">Tư vấn pháp luật,</a> <a href="" title="">Luật tranh tụng,</a></p> -->
 			
 		</div>
 		<div id="supports" class="hidden-sm">  
