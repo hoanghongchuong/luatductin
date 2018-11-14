@@ -48,13 +48,15 @@
             @if ($errors->first('password')!='')
             <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> {!! $errors->first('password'); !!}</label>
             @endif
-            @if (Session::has('flash_error'))
-            <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> {{ Session::get('flash_error') }}</label>
+            @if(Session::has('message'))
+                <label class="control-label" for="inputError">
+                    <i class="fa fa-times-circle-o"></i> {{ Session::get('message') }}
+                </label>
             @endif
           </div>
           <div class="row">
             <div class="col-xs-6">
-              <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+              <button type="submit" class="btn btn-primary btn-block btn-flat">Đăng nhập</button>
             </div><!-- /.col -->
             <!-- <div class="col-xs-6">
               <div class="checkbox icheck">

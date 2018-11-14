@@ -55,42 +55,57 @@ Route::get('hoi-dap/{cate}', 'IndexController@listCate')->name('listhoidap');
 Route::post('post-answer', 'IndexController@postAnswer')->name('postAnswer');
 Route::get('dat-cau-hoi', 'IndexController@getQuestsion')->name('getQuestion');
 Route::post('dat-cau-hoi', 'IndexController@postQuestsion')->name('postQuestion');
-// Route::get('login','LoginController@getLogin')->name('getLogin');
-// Route::post('login','LoginController@postLogin')->name('postLogin');
-// Route::get('logout','LoginController@logout');
-// gio hang
 
-// Route::get('thu-vien-anh',['as'=>'getThuvienanh', 'uses'=>'IndexController@getThuvienanh']);
-// Route::get('hoi-vien',['as'=>'getHoivien', 'uses'=>'IndexController@getHoivien']);
-// Route::get('{id}.html',['as'=>'getProductDetail', 'uses'=>'IndexController@getProductDetail']);
-// Route::get('bai-viet/{id}.html',['as'=>'getBaiVietDetail', 'uses'=>'IndexController@getBaiVietDetail']);
-// Route::get('error/404.html',['as'=>'getErrorNotFount', 'uses'=>'IndexController@getErrorNotFount']);
-// Route::controllers([
-// 	'auth' => 'Auth\AuthController',
-// 	'password' => 'Auth\PasswordController',
-// ]);
 
-Route::get('backend/login',['as'=>'admin.auth.getLogin', 'uses'=>'AdminAuth\AuthController@getLogin']);
-Route::post('backend/postlogin',['as'=>'admin.auth.postLogin', 'uses'=>'AdminAuth\AuthController@postLogin']);
+// Route::get('backend/login',['as'=>'admin.auth.getLogin', 'uses'=>'AdminAuth\AuthController@getLogin']);
+// Route::post('backend/postlogin',['as'=>'admin.auth.postLogin', 'uses'=>'AdminAuth\AuthController@postLogin']);
+
+Route::get('backend/login',['as'=>'admin.auth.getLogin', 'uses'=>'Admin\AuthController@getLogin']);
+Route::post('backend/postlogin',['as'=>'admin.auth.postLogin', 'uses'=>'Admin\AuthController@postLogin']);
+
+
 Route::get('register',['as'=>'getRegister', 'uses'=>'AdminAuth\AuthController@getRegister']);
 Route::post('postregister',['as'=>'postRegister', 'uses'=>'AdminAuth\AuthController@postRegister']);
 
 
-Route::group(['middleware' =>'authen', 'prefix' => 'backend'], function(){
+Route::group(['middleware' =>'admin', 'prefix' => 'backend'], function(){
 	Route::get('/',['as'=>'admin.index', 'uses'=>'Admin\IndexController@getIndex']);
 	
 	Route::get('logout', ['as' => 'admin.auth.logout', 'uses' => 'AdminAuth\AuthController@logout']);
-	Route::get('setting',['as'=>'admin.setting.index','uses'=>'Admin\SettingController@index']);
+
+	Route::get('setting',['as'=>'admin.setting.index','uses'=>'Admin\SettingController@index'])->middleware('can:can_setting');
 	Route::post('setting/update',['as'=>'admin.setting.update','uses'=>'Admin\SettingController@update']);
 	
 	Route::post('contact/access',['as'=>'admin.contact.access','uses'=>'Admin\ContactController@xuly']);
 	Route::post('recruitment/access',['as'=>'admin.recruitment.access','uses'=>'Admin\RecruitmentController@accessRe']);
 
-	Route::group(['prefix' => 'users'], function(){
-		Route::get('info',['as'=>'admin.users.getAdmin','uses'=>'Admin\UsersController@getAdmin']);
-		Route::post('updateinfo',['as'=>'admin.users.updateinfo','uses'=>'Admin\UsersController@updateinfo']);
-	});
+	// Route::group(['prefix' => 'users', 'middleware' => 'can:admin_manager'], function(){
+	// 	Route::get('/', 'Admin\UsersController@list')->name('admin.list');
+	// 	Route::any('create', 'Admin\UsersController@create')->name('admin.create.user');
+		
+	// 	Route::get('edit/{id}', 'Admin\UsersController@getEdit')->name('admin.edit.user');
+	// 	Route::get('delete/{id}', 'Admin\UsersController@delete')->name('admin.delete.user');
+	// 	Route::get('info',['as'=>'admin.users.getAdmin','uses'=>'Admin\UsersController@getAdmin']);
+	// 	Route::post('updateinfo',['as'=>'admin.users.updateinfo','uses'=>'Admin\UsersController@updateinfo']);
+	// });
 
+	Route::group([			
+			'prefix' => 'admin',
+			'middleware' => 'can:admin_manager'
+			
+			], function(){
+			Route::get('/', 'Admin\AdminController@index')->name('admin.admin.index');
+			Route::any('create','Admin\AdminController@create')->name('admin.admin.create');
+			Route::any('edit/{id}', 'Admin\AdminController@create')->name('admin.admin.edit');
+			// Route::post('create', 'Admin\AdminController@postCreate')->name('admin.admin.postCreate');
+
+			// Route::get('edit/{id}', 'Admin\AdminController@edit')->name('admin.admin.edit');
+			
+			
+			Route::get('delete/{id}','Admin\AdminController@delete')->name('admin.admin.delete');
+		});
+	Route::get('info',['as'=>'admin.users.getAdmin','uses'=>'Admin\AdminController@getAdmin']);
+	Route::post('update/info', 'Admin\AdminController@updateInfo')->name('update.info');
 	Route::group(['prefix' => 'productcate'], function(){
 		Route::get('/',['as'=>'admin.productcate.index','uses'=>'Admin\ProductCateController@getDanhSach']);
 		Route::get('add',['as'=>'admin.productcate.getAdd','uses'=>'Admin\ProductCateController@getAdd']);
@@ -101,11 +116,12 @@ Route::group(['middleware' =>'authen', 'prefix' => 'backend'], function(){
 		Route::get('{id}/delete_list',['as'=>'admin.productcate.getDeleteList','uses'=>'Admin\ProductCateController@getDeleteList']);
 	});
 
-	Route::group(['prefix' => 'question'], function(){
+	Route::group(['prefix' => 'question', 'middleware' => 'can:can_question'], function(){
 		Route::get('/', 'Admin\QuestionController@index')->name('question.index');
 		Route::get('edit/{id}', 'Admin\QuestionController@edit')->name('question.edit');
 		Route::post('edit/{id}', 'Admin\QuestionController@postEdit')->name('question.postEdit');
-		Route::get('delete/{id}', 'Admin\QuestionController@delete')->name('question.delete');
+
+		Route::get('delete/{id}', 'Admin\QuestionController@delete')->name('question.delete')->middleware('can:can_delete_question');
 
 		Route::post('access','Admin\QuestionController@access')->name('question.access');
 	});
@@ -162,7 +178,7 @@ Route::group(['middleware' =>'authen', 'prefix' => 'backend'], function(){
 		Route::get('deleteList/{id}',['as'=>'admin.banner.getDeleteList','uses'=>'Admin\BannerController@getDeleteList']);
 
 	});
-	Route::group(['prefix' => 'news'], function(){
+	Route::group(['prefix' => 'news', 'middleware' => 'can:can_news'], function(){
 		Route::get('/',['as'=>'admin.news.index','uses'=>'Admin\NewsController@getList']);
 		Route::get('add',['as'=>'admin.news.getAdd','uses'=>'Admin\NewsController@getAdd']);
 		Route::post('postAdd',['as'=>'admin.news.postAdd','uses'=>'Admin\NewsController@postAdd']);
@@ -216,7 +232,7 @@ Route::group(['middleware' =>'authen', 'prefix' => 'backend'], function(){
 		
 		Route::get('{id}/deleteList',['as'=>'admin.lienket.getDeleteList','uses'=>'Admin\LienKetController@getDeleteList']);
 	});
-	Route::group(['prefix' => 'contact'], function(){
+	Route::group(['prefix' => 'contact', 'middleware' => 'can:can_contact'], function(){
 		Route::get('/','Admin\ContactController@getContact')->name('admin.contact.index');
 		Route::get('delete/{id}','Admin\ContactController@deleteContact')->name('delete.contact');
 	});

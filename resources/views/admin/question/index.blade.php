@@ -32,7 +32,9 @@
                 <!-- <th>Nội dung</th> -->
                 <th>Đã duyệt</th>
                 <th class="text-center with_dieuhuong">Sửa</th>
+                @if(Auth::guard('admin')->user()->can('can_delete_question'))
                 <th class="text-center with_dieuhuong">Xóa</th>
+                @endif
               </tr>
             </thead>
             <tbody>
@@ -60,9 +62,13 @@
                 <td class="text-center with_dieuhuong">
                   <i class="fa fa-pencil fa-fw"></i><a href="{{asset('backend/question/edit/'.$item->id)}}">Chi tiết</a>
                 </td>
+                @if(Auth::guard('admin')->user()->can('can_delete_question'))
                 <td class="text-center">
-                  <i class="fa fa-trash-o fa-fw"></i><a onClick="if(!confirm('Xác nhận xóa')) return false;" href="{{ route('question.delete', $item->id) }}">Delete</a>
+                  <i class="fa fa-trash-o fa-fw"></i>
+                  <a onClick="if(!confirm('Xác nhận xóa')) return false;" href="{{ route('question.delete', $item->id) }}">Delete
+                  </a>
                 </td>
+                @endif
             </tr>
             @endforeach
             </tbody>

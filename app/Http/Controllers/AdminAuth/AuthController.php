@@ -66,7 +66,7 @@ class AuthController extends Controller {
         $auth = array(
             'username' => $request->username,
             'password' => $request->password,
-            'level' => 1,
+            // 'level' => 1,
             'status' => 1
         );   
         $remember = $request->remember ? true : false;

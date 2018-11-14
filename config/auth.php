@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'admin',
         'passwords' => 'users',
     ],
 
@@ -48,6 +48,10 @@ return [
         'member' => [
             'driver' => 'session',
             'provider' => 'members'
+        ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins'
         ]
     ],
 
@@ -76,6 +80,10 @@ return [
         'members' => [
             'driver' => 'eloquent',
             'model'  => App\Member::class,
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model'  => App\Admin::class,
         ],
         // 'users' => [
         //     'driver' => 'database',
@@ -107,6 +115,11 @@ return [
         
         'members' => [
             'provider' => 'members',
+            'table'    => 'password_resets',
+            'expire'   => 60,
+        ],
+        'admins' => [
+            'provider' => 'admins',
             'table'    => 'password_resets',
             'expire'   => 60,
         ]
