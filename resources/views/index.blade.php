@@ -51,36 +51,15 @@
     <div class="layout">   
     @include('templates.layout.header')
     @yield('content')
+    <?php $category_footers = DB::table('news_categories')->select('name', 'id','alias','parent_id')->where('parent_id',0)->get(); ?>
     <div class="menu_footer">
         <ul class="">
             <li class=""><a href="index.html">Trang chủ</a></li>
+            @foreach($category_footers as $cate)
             <li>
-                <a href="#">Giới thiệu</a>                    
-            <li>
-                <a href="#">Dân sự</a>                    
+                <a href="{{ url('/',$cate->alias) }}">{{ $cate->name }}</a>                    
             </li>
-            <li>
-                <a href="#">Hình sự</a>
-                
-            </li>
-            <li>
-                <a href="#">Đất đai</a>                    
-            </li>
-            <li>
-                <a href="#">Hôn nhân</a>                    
-            </li>
-            <li>
-                <a href="#">Lao động</a>                    
-            </li>
-            <li>
-                <a href="#">Doanh nghiệp</a>                    
-            </li>
-            <li>
-                <a href="#">SHTT</a>                    
-            </li>
-            <li><a href="#" title="">Hỏi đáp</a></li>
-            <li><a href="#" title="">VBPL</a></li>
-            <li><a href="#" title="">Liên hệ</a></li>
+            @endforeach
         </ul>
     </div>
     </div>
