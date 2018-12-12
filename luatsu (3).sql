@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 15, 2018 lúc 03:07 AM
+-- Thời gian đã tạo: Th12 12, 2018 lúc 11:29 AM
 -- Phiên bản máy phục vụ: 10.1.36-MariaDB
 -- Phiên bản PHP: 7.2.10
 
@@ -95,6 +95,7 @@ CREATE TABLE `answers` (
   `admin_id` int(11) DEFAULT NULL,
   `member_id` int(11) DEFAULT NULL,
   `content` text NOT NULL,
+  `status` int(1) DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -103,9 +104,19 @@ CREATE TABLE `answers` (
 -- Đang đổ dữ liệu cho bảng `answers`
 --
 
-INSERT INTO `answers` (`id`, `question_id`, `admin_id`, `member_id`, `content`, `created_at`, `updated_at`) VALUES
-(3, 1, NULL, 2, '<p>df sdf sdf&nbsp;</p>', '2018-11-14 01:50:59', '2018-11-14 01:50:59'),
-(7, 1, 23, NULL, '<p>Luaatj sw tra loi</p>', '2018-11-14 02:36:07', '2018-11-14 02:36:07');
+INSERT INTO `answers` (`id`, `question_id`, `admin_id`, `member_id`, `content`, `status`, `created_at`, `updated_at`) VALUES
+(3, 1, NULL, 2, '<p>df sdf sdf&nbsp;</p>', 1, '2018-11-29 02:55:14', '2018-11-28 19:55:14'),
+(7, 1, 23, NULL, '<p>Luaatj sw tra loi</p>', 1, '2018-11-29 02:15:36', '2018-11-14 02:36:07'),
+(8, 1, NULL, 2, '<p>tesst tra loi</p>', 0, '2018-11-29 02:55:27', '2018-11-28 19:55:27'),
+(9, 1, NULL, 5, '<p>tesst a vatar</p>', 1, '2018-11-29 03:20:16', '2018-11-28 20:20:16'),
+(10, 2, 16, NULL, '<p>sdf sdf sdf</p>', 1, '2018-11-30 21:55:56', '2018-11-30 21:55:56'),
+(11, 2, NULL, 2, '<p>tra loi cau hoi test 2</p>', 1, '2018-12-01 04:56:52', '2018-11-30 21:56:52'),
+(12, 2, 16, NULL, '<p>trả lời ban chuonghh</p>', 1, '2018-11-30 21:57:11', '2018-11-30 21:57:11'),
+(13, 2, NULL, 2, '<p>dsfsf</p>', 0, '2018-12-01 00:00:41', '2018-12-01 00:00:41'),
+(14, 2, NULL, 2, '<p>sdf sdf</p>', 0, '2018-12-01 00:16:44', '2018-12-01 00:16:44'),
+(15, 2, NULL, 2, '<p>test email g</p>', 0, '2018-12-01 00:20:39', '2018-12-01 00:20:39'),
+(16, 2, NULL, 2, '<p>dsf s</p>', 0, '2018-12-01 01:25:08', '2018-12-01 01:25:08'),
+(17, 4, NULL, 6, '<p>sdf ds</p>', 1, '2018-12-07 09:50:56', '2018-12-07 02:50:56');
 
 -- --------------------------------------------------------
 
@@ -314,6 +325,28 @@ CREATE TABLE `gioithieu` (
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `guest_online`
+--
+
+CREATE TABLE `guest_online` (
+  `guest_id` varchar(100) NOT NULL,
+  `time` int(11) NOT NULL DEFAULT '0',
+  `number` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `guest_online`
+--
+
+INSERT INTO `guest_online` (`guest_id`, `time`, `number`, `created_at`, `updated_at`) VALUES
+('q83v3pbuoo7th7a598pmnhio4l', 1544603970, 0, '2018-12-12 08:15:21', '2018-12-12 08:39:30'),
+('l9v2of4c1p84g83f7d5iojiem9', 1544603979, 0, '2018-12-12 08:39:36', '2018-12-12 08:39:39');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `images`
 --
 
@@ -366,6 +399,7 @@ CREATE TABLE `members` (
   `email` varchar(255) NOT NULL,
   `username` varchar(250) NOT NULL,
   `password` varchar(250) NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
   `address` text NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `active` int(2) NOT NULL DEFAULT '0',
@@ -377,10 +411,13 @@ CREATE TABLE `members` (
 -- Đang đổ dữ liệu cho bảng `members`
 --
 
-INSERT INTO `members` (`id`, `name`, `phone`, `email`, `username`, `password`, `address`, `remember_token`, `active`, `created_at`, `updated_at`) VALUES
-(1, 'Hoàng Đức A', '0987654321', 'a@gmail.com', 'duca', '$2y$10$i1nxY.Vjd3HM3c9E3bMuIe.73c/.OpC.PcuMPd2r.U0ulNy1LSRtS', 'Vạn Phúc, Hà Đông, Hà Nọi', NULL, 0, '2018-11-09 01:45:20', '2018-11-09 01:45:20'),
-(2, 'Hoàng Hồng Chương', '0987654321', 'chuonghh@gmail.com', 'chuonghh', '$2y$10$hXf0hOM1PifMR1iM5irDE.dbrylflOa5IjA9RiWKjRjG2WH24gCDa', 'Vạn Phúc, Hà Đông, Hà Nọi', 'vr0zJZkLokmSWgB8S8U9FNSMFFW356813w2y7moe3xuaDXWgwlWIbxj7DI8b', 0, '2018-11-14 09:50:17', '2018-11-11 19:25:44'),
-(3, 'Nguyễn Nam', '9876543210', 'nam@gmail.com', 'namnguyen', '$2y$10$5L0f1Jth0mQ7qRZBHTsSuOPW8lTgV6B..eW180p4f6xYhcEKN2U1.', 'Vạn Phúc, Hà Đông, Hà Nọi', 'zHFsAuc1PbVSxF6gNdXyWqJnWOy8pGtmLicsCRBvtDJI2IwZbcvPIKzTujeo', 0, '2018-11-14 08:35:29', '2018-11-14 01:21:28');
+INSERT INTO `members` (`id`, `name`, `phone`, `email`, `username`, `password`, `photo`, `address`, `remember_token`, `active`, `created_at`, `updated_at`) VALUES
+(1, 'Hoàng Đức A', '0987654321', 'a@gmail.com', 'duca', '$2y$10$i1nxY.Vjd3HM3c9E3bMuIe.73c/.OpC.PcuMPd2r.U0ulNy1LSRtS', NULL, 'Vạn Phúc, Hà Đông, Hà Nọi', NULL, 0, '2018-11-09 01:45:20', '2018-11-09 01:45:20'),
+(2, 'Hoàng Hồng Chương', '0987654321', 'chuonghh@gmail.com', 'chuonghh', '$2y$10$hXf0hOM1PifMR1iM5irDE.dbrylflOa5IjA9RiWKjRjG2WH24gCDa', NULL, 'Vạn Phúc, Hà Đông, Hà Nọi', 'Dfjwti77UsV0WgiCwKb6vcwYe4mc2Y01N1qFix1331JXpi0wwoCGvI349uJ8', 0, '2018-11-29 02:59:09', '2018-11-11 19:25:44'),
+(3, 'Nguyễn Nam', '9876543210', 'nam@gmail.com', 'namnguyen', '$2y$10$5L0f1Jth0mQ7qRZBHTsSuOPW8lTgV6B..eW180p4f6xYhcEKN2U1.', NULL, 'Vạn Phúc, Hà Đông, Hà Nọi', 'zHFsAuc1PbVSxF6gNdXyWqJnWOy8pGtmLicsCRBvtDJI2IwZbcvPIKzTujeo', 0, '2018-11-14 08:35:29', '2018-11-14 01:21:28'),
+(5, 'Trần Văn A', '0987654321', 'trana@gmail.com', 'vana', '$2y$10$qvhD76wrAEnRQMgCdCUeLOAa.S2nz7hTwwNjSARra/6eY/DnQdzTa', 'upload/users/1543461359.png', 'Vạn Phúc, Hà Đông, Hà Nọi', NULL, 0, '2018-11-29 03:31:16', '2018-11-28 20:15:59'),
+(6, 'chuonghhh', '12345678', 'admin@team.vn', 'chuonghhh', '$2y$10$6FYtRu9ncsFJoayeH97DROWxWEOBBjtrH2cdo44bWr.CWKXkIfwEO', 'upload/users/1544176182.jpg', 'Hà Nội', 'NDzSeQR9qOOWDkUiezjMLhEyGluQcFG5WPlJf14DPC8aIcQPrkTsqZ4XmTUO', 0, '2018-12-07 09:55:50', '2018-12-07 02:49:42'),
+(7, 'Hoàng Hồng Chương', '0987654321', 'adminx@team.vn', 'chuonghhjjj', '$2y$10$eF0zT39.QE64DTn4dVUGsOwflXdUzlYuYLDZEVVPAWskBy1p5OC3m', 'upload/users/1544176578.jpg', 'Hà Nội', NULL, 0, '2018-12-07 02:56:18', '2018-12-07 02:56:18');
 
 -- --------------------------------------------------------
 
@@ -666,7 +703,9 @@ CREATE TABLE `questions` (
 
 INSERT INTO `questions` (`id`, `member_id`, `admin_id`, `cate_id`, `name`, `alias`, `content`, `status`, `created_at`, `updated_at`) VALUES
 (1, 3, NULL, 1, 'Câu hỏi test 1', 'cau-hoi-test-1', '<p>Nội dung c&acirc;u hỏi test 1</p>', 1, '2018-11-14 08:30:05', '2018-11-14 01:30:05'),
-(2, 2, NULL, 1, 'Câu hỏi test 2', 'cau-hoi-test-2', '<p>Nội dung c&acirc;u hỏi test 2 abc</p>', 1, '2018-11-14 09:08:09', '2018-11-14 02:08:09');
+(2, 2, NULL, 1, 'Câu hỏi test 2', 'cau-hoi-test-2', '<p>Nội dung c&acirc;u hỏi test 2 abc</p>', 1, '2018-11-14 09:08:09', '2018-11-14 02:08:09'),
+(3, 2, NULL, 2, 'ssss', 'ssss', '<p>sdf sdf</p>', 0, '2018-12-01 01:03:42', '2018-12-01 01:03:42'),
+(4, 6, NULL, 1, 'tét image', 'tet-image', '<p>sd fs</p>', 1, '2018-12-07 09:50:34', '2018-12-07 02:50:34');
 
 -- --------------------------------------------------------
 
@@ -703,6 +742,7 @@ CREATE TABLE `setting` (
   `analytics` longtext COLLATE utf8_unicode_ci,
   `keyword` longtext COLLATE utf8_unicode_ci,
   `description` longtext COLLATE utf8_unicode_ci,
+  `number_view` int(11) DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -711,8 +751,8 @@ CREATE TABLE `setting` (
 -- Đang đổ dữ liệu cho bảng `setting`
 --
 
-INSERT INTO `setting` (`id`, `name`, `title`, `company`, `website`, `address`, `phone`, `hotline`, `fax`, `email`, `photo`, `favico`, `title_index`, `mota`, `content`, `facebook`, `twitter`, `skype`, `google`, `youtube`, `status`, `toado`, `copyright`, `iframemap`, `codechat`, `analytics`, `keyword`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Đức Tín', 'Đức Tín', 'Đức Tín', NULL, 'Số 31 ngõ 73, phố Nguyễn Lương Bằng, phường Nam Đồng, quận Đống Đa, Hà Nội', '0987654321', NULL, '<div class=\"title_company_name\" style=\"text-align: center;\"><strong>VĂN PH&Ograve;NG LUẬT ĐỨC T&Iacute;N</strong></div>\r\n<p style=\"text-align: center;\">Địa chỉ: Số 31 ng&otilde; 73, phố Nguyễn Lương Bằng, phường Nam Đồng, quận Đống Đa, H&agrave; Nội</p>\r\n<p style=\"text-align: center;\">Điện thoại:&nbsp;<span class=\"phone\">098 882 33 38</span>&nbsp;&nbsp;- Email:&nbsp;<a title=\"\">luatsuduclong@gmail.com</a></p>\r\n<p style=\"text-align: center;\">Chịu tr&aacute;ch nhiệm về nội dung: Luật sư Nguyễn Đức Long - Gi&aacute;m đốc điều h&agrave;nh</p>\r\n<p style=\"text-align: center;\"><a title=\"\">Ch&iacute;nh s&aacute;ch &amp; v&agrave; quy định chung</a>&nbsp;|&nbsp;<a title=\"\">Ch&iacute;nh s&aacute;ch bảo mật th&ocirc;ng tin</a></p>\r\n<h3 style=\"text-align: center;\">LUẬT SƯ TƯ VẤN PH&Aacute;P LUẬT TRỰC TUYẾN QUA ĐIỆN THOẠI - 098 882 33 38</h3>', 'abc', '1541650115_logo.png', '1541650115_logo.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.3892012719148!2d105.82722721432398!3d21.01710758600471!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab82655128d7%3A0x2dd2aba13aeba6d9!2zVsSDbiBQaMOybmcgTHXhuq10IFPGsCDEkOG7qWMgVMOtbg!5e0!3m2!1svi!2s!4v1541730221220\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>', NULL, NULL, NULL, NULL, '2018-11-09 07:05:46', '2018-11-09 00:05:46');
+INSERT INTO `setting` (`id`, `name`, `title`, `company`, `website`, `address`, `phone`, `hotline`, `fax`, `email`, `photo`, `favico`, `title_index`, `mota`, `content`, `facebook`, `twitter`, `skype`, `google`, `youtube`, `status`, `toado`, `copyright`, `iframemap`, `codechat`, `analytics`, `keyword`, `description`, `number_view`, `created_at`, `updated_at`) VALUES
+(1, 'Đức Tín', 'Đức Tín', 'Đức Tín', NULL, 'Số 31 ngõ 73, phố Nguyễn Lương Bằng, phường Nam Đồng, quận Đống Đa, Hà Nội', '0987654321', NULL, '<div class=\"title_company_name\" style=\"text-align: center;\"><strong>VĂN PH&Ograve;NG LUẬT ĐỨC T&Iacute;N</strong></div>\r\n<p style=\"text-align: center;\">Địa chỉ: Số 31 ng&otilde; 73, phố Nguyễn Lương Bằng, phường Nam Đồng, quận Đống Đa, H&agrave; Nội</p>\r\n<p style=\"text-align: center;\">Điện thoại:&nbsp;<span class=\"phone\">098 882 33 38</span>&nbsp;&nbsp;- Email:&nbsp;<a title=\"\">luatsuduclong@gmail.com</a></p>\r\n<p style=\"text-align: center;\">Chịu tr&aacute;ch nhiệm về nội dung: Luật sư Nguyễn Đức Long - Gi&aacute;m đốc điều h&agrave;nh</p>\r\n<p style=\"text-align: center;\"><a title=\"\">Ch&iacute;nh s&aacute;ch &amp; v&agrave; quy định chung</a>&nbsp;|&nbsp;<a title=\"\">Ch&iacute;nh s&aacute;ch bảo mật th&ocirc;ng tin</a></p>\r\n<h3 style=\"text-align: center;\">LUẬT SƯ TƯ VẤN PH&Aacute;P LUẬT TRỰC TUYẾN QUA ĐIỆN THOẠI - 098 882 33 38</h3>', 'chuonghoanghong@gmail.com', '1541650115_logo.png', '1541650115_logo.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.3892012719148!2d105.82722721432398!3d21.01710758600471!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab82655128d7%3A0x2dd2aba13aeba6d9!2zVsSDbiBQaMOybmcgTHXhuq10IFPGsCDEkOG7qWMgVMOtbg!5e0!3m2!1svi!2s!4v1541730221220\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>', NULL, NULL, NULL, NULL, 7, '2018-12-12 08:39:36', '2018-12-01 00:16:33');
 
 -- --------------------------------------------------------
 
@@ -990,7 +1030,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT cho bảng `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `authorizations`
@@ -1062,7 +1102,7 @@ ALTER TABLE `lienket`
 -- AUTO_INCREMENT cho bảng `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `menu`
@@ -1110,7 +1150,7 @@ ALTER TABLE `province`
 -- AUTO_INCREMENT cho bảng `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `setting`
