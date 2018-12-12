@@ -9,16 +9,13 @@
                 <li><a href="{{ url('hoi-dap')}}" title="">Hỏi đáp</a></li>
             </ul>
         </div>
-
         <div class="content_detail">
             <div class="box-header-content">
                 <h1 class="name_news_detail">{{$data->name}}</h1>
                 <p class="post-date">Cập nhật: {{date('d/m/Y', strtotime($data->created_at))}}
                 	&nbsp; Người hỏi: <strong>{{$data->member->name}}</strong>
-                </p>
-               
-            </div>
-            
+                </p>               
+            </div>            
             <div class="contetn_post_detail">
                 {!! $data->content !!}
             </div>
@@ -29,17 +26,24 @@
 				<span style="float:right; padding-right: 12px; margin-right: 10px;" data-toggle="modal" data-target="#myModalTraLoi" class="btn btn-primary">Trả lời</span>
         	</p>
         	@foreach($answers as $item)
+            <?php $member_photo = DB::table('members')->select('photo','id')->where('id',$item->member_id)->first(); ?>
         	<div class="traloi">
         		<div class="col-md-3 leftx">
         			
         			@if($item->member_id)
-                    <p style="text-align: center;"><img src="{{ asset('public/images/avatar.png') }}" width="60px;"></p>
-        			<strong style="font-size: 13px;">{{ $item->member->name }}</strong>
+                    <p style="text-align: center;">
+                        @if($member_photo->photo == '')
+                        <img src="{{ asset('public/images/avatar.png') }}" width="60px;">
+                        @else
+                        <img src="{{ asset($member_photo->photo) }}" width="60px;">
+                        @endif
+                    </p>
+        			<p style="font-size: 13px; text-align: center;"><strong >{{ $item->member->name }}</strong></p>
         			@endif
         			@if($item->admin_id !='')
                                	
                         <p style="text-align: center;"><img src="{{ asset(@$item->admin->avatar) }}" onerror="this.src='{{asset('public/images/avatar.png')}}'" width="60px"></p>		
-            			<strong style="font-size: 13px;">{{ $item->admin->name }}</strong>
+            			<p style="font-size: 13px; text-align: center;"><strong >{{ $item->admin->name }}</strong></p>
             			<p style="color: #DB1E9C; font-size: 13px; font-weight: bold;text-align: center;">Luật sư</p>
                         
         			@endif

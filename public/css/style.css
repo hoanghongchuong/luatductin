@@ -842,3 +842,21 @@ footer{
 	margin-left: 10px;
 	margin-right: 10px;
 }
+.hot-line-scroll{
+	width: 265px;
+	height: 95px;
+	display: block;
+	position: fixed;
+	bottom: 5px;
+	left: 20px;
+}
+.hot-line-scroll a{
+	color: #fff;
+	font-size: 20px;
+	position: absolute;
+	right: 35px;
+	bottom: 32px;
+}
+.hot-line-scroll a:hover{
+	color: blue;
+}

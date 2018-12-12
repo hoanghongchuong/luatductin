@@ -9,7 +9,7 @@ class Member extends Authenticatable
     protected $table = 'members';
 
     protected $fillable = [
-    	'name','username','password','email','phone','address'
+    	'name','username','password','email','phone','address','photo'
     ];
 
     public function getFieldList()

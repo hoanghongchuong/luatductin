@@ -1,6 +1,7 @@
 <?php
     $setting = Cache::get('setting');
     $category_footers = DB::table('news_categories')->select('name', 'id','alias','parent_id')->where('parent_id',0)->get();
+    $guest_online = DB::table('guest_online')->get();
 ?>
 
 <footer>
@@ -22,6 +23,8 @@
             @endforeach
         </div>
         <div class="bottom_footer">
+            <p>Số người online: {{count($guest_online)}}</p>
+            <p>Số người đã truy cập website: {{$setting->number_view}}</p>
             <!-- <div class="title_company_name">Văn phòng luật Đức Tín</div>
             <p>Địa chỉ: Số 31 ngõ 73, phố Nguyễn Lương Bằng, phường Nam Đồng, quận Đống Đa, Hà Nội</p>
             <p>Điện thoại: <span class="phone">098 882 33 38</span> &nbsp;- Email: <a href="" title="">luatsuduclong@gmail.com</a></p>
@@ -32,6 +35,9 @@
         </div>
     </div>
 </footer>
+<div class="hot-line-scroll" style="background: url('public/images/img_hotline.png') center">
+    <a href="tel:{{$setting->phone}}" title="">{{$setting->phone}}</a>
+</div>
 <script>(function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;

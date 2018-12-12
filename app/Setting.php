@@ -6,7 +6,7 @@ class Setting extends Model {
 
 	protected $table='setting';
 
-	protected $fillable = ['id','name','title','photo','company','address','phone','hotline','fax','email','photo','mota','content','status','codechat','analytics','keyword','description'];
+	protected $fillable = ['id','name','title','photo','company','address','phone','hotline','fax','email','photo','mota','content','status','codechat','analytics','keyword','description','number_view'];
 
 	public $timestamps = true;
 }

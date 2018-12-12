@@ -27,6 +27,9 @@ $(document).ready(function(){
     $(".inputFile").change(function() {
       readURL(this);
     });
+
+    
+
 });
 function FormatNumber(obj) {
     var strvalue;

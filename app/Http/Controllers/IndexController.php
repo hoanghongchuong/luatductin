@@ -6,11 +6,13 @@ use Carbon\Carbon;
 use App\NewsLetter;
 use DB,Cache,Mail;
 use App\News;
+use App\Guest;
 use App\ProductCate;
 use App\NewsCate;
 use App\Question;
 use App\Member;
 use App\Answer;
+use App\Setting;
 class IndexController extends Controller {
 	protected $setting = NULL;
 
@@ -49,7 +51,8 @@ class IndexController extends Controller {
 	 * @return Response
 	 */
 	public function index()
-	{			
+	{	
+		session_start();	
 		$tintuc_moinhat = DB::table('news')->select()->where('status',1)->where('com','bai-viet')->orderBy('id','desc')->take(4)->get();
 
 		$com='index';		
@@ -62,7 +65,24 @@ class IndexController extends Controller {
 		$description = $setting->description;
 		// End cấu hình SEO
 		$img_share = asset('upload/hinhanh/'.$setting->photo);
-
+		//count guest online
+		$guest_id = session_id();
+		$time = time();
+		$time_check = $time-60;
+		$resultGuestId = Guest::where('guest_id',$guest_id)->first();
+		// dd($guest_id);
+		
+		if($resultGuestId){
+			Guest::where('guest_id', $guest_id)->update(['time' => $time]);
+		}else{
+			$guest = new Guest;
+			$guest->time = $time;
+			$guest->guest_id = $guest_id;			
+			$guest->save();
+			DB::table('setting')->increment('number_view',1);
+		}
+		
+		Guest::where('time', '<', $time_check)->delete();
 		return view('templates.index_tpl', compact('title', 'description', 'keyword', 'setting', 'about','hot_news','tintuc_moinhat','categories','com'));
 	}
 	
@@ -229,7 +249,7 @@ class IndexController extends Controller {
 	public function detailQuestion($alias)
 	{
 		$data = Question::where('alias', $alias)->first();
-		$answers = Answer::where('question_id', $data->id)->orderBy('id','desc')->get();
+		$answers = Answer::where('question_id', $data->id)->where('status',1)->orderBy('id','asc')->get();
 				
 		$title = $data->name;
 		return view('templates.detail_question', compact('data','title', 'answers'));
@@ -262,6 +282,7 @@ class IndexController extends Controller {
 			$data->cate_id = $req->cate_id;
 			$data->alias = str_slug($req->name);
 			$data->member_id = Auth::guard('member')->user()->id;
+			$data->status = 0;
 			$data->save();
 			return back()->with('message','Gửi câu hỏi thành công');
 		}

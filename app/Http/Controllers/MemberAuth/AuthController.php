@@ -59,6 +59,13 @@ class AuthController extends Controller
 	    	]
     	);
     	$data = $req->only($this->Member->getFieldList());
+        if($req->hasFile('avartar_member')){
+            $image          = $req->file('avartar_member');
+            $path_img='upload/users/';
+            $data['photo'] = time() . '.' . $image->getClientOriginalExtension();
+            $image->move($path_img, $data['photo']);
+            $data['photo'] = 'upload/users/' . $data['photo'];
+        }
     	if($req->password){            
             $data['password'] = \Hash::make($data['password']);
         }

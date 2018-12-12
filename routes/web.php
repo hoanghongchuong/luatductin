@@ -52,9 +52,9 @@ Route::get('hoi-dap/{alias}.html', 'IndexController@detailQuestion')->name('deta
 Route::get('hoi-dap/{cate}', 'IndexController@listCate')->name('listhoidap');
 
 
-Route::post('post-answer', 'IndexController@postAnswer')->name('postAnswer');
+Route::post('post-answer', 'ContactController@postAnswer')->name('postAnswer');
 Route::get('dat-cau-hoi', 'IndexController@getQuestsion')->name('getQuestion');
-Route::post('dat-cau-hoi', 'IndexController@postQuestsion')->name('postQuestion');
+Route::post('dat-cau-hoi', 'ContactController@postQuestsion')->name('postQuestion');
 
 
 // Route::get('backend/login',['as'=>'admin.auth.getLogin', 'uses'=>'AdminAuth\AuthController@getLogin']);
@@ -77,6 +77,8 @@ Route::group(['middleware' =>'admin', 'prefix' => 'backend'], function(){
 	Route::post('setting/update',['as'=>'admin.setting.update','uses'=>'Admin\SettingController@update']);
 	
 	Route::post('contact/access',['as'=>'admin.contact.access','uses'=>'Admin\ContactController@xuly']);
+	Route::post('answer/active','Admin\QuestionController@activeAnswer')->name('admin.answer.active');
+
 	Route::post('recruitment/access',['as'=>'admin.recruitment.access','uses'=>'Admin\RecruitmentController@accessRe']);
 
 	// Route::group(['prefix' => 'users', 'middleware' => 'can:admin_manager'], function(){

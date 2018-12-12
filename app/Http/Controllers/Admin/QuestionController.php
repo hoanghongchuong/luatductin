@@ -34,6 +34,7 @@ class QuestionController extends Controller
     	$answer->admin_id = $admin_id;
     	$answer->question_id = $question->id;
     	$answer->content = $req->content;
+        $answer->status = 1;
     	// dd($answer);
     	$answer->save();
     	return back()->with('status', 'Trả lời thành công');
@@ -54,5 +55,15 @@ class QuestionController extends Controller
             $question->save();
         }
         return (Int)$question->status;
+    }
+
+    public function activeAnswer(Request $req)
+    {
+        $data = Answer::where('id', $req->anwser_id)->first();
+        if($data){
+            $data->status = $data->status == 1 ? 0 : 1;
+            $data->save();
+        }
+        return (Int)$data->status;
     }
 }

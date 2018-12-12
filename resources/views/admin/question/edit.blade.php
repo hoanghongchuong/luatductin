@@ -20,15 +20,29 @@
 
 			<div class="col-md-12">
 				<div class="form-group">
-	                <label for="">Câu hỏi</label>
-	                <textarea name="content" id="" cols="30" rows="10" class="form-control">{!! $data->name !!}</textarea>
+	                <label for="" style="font-size: 22px;">Câu hỏi</label>
+	                <textarea name="content" id="" cols="30" rows="5" class="form-control">{!! $data->name !!}</textarea>
 	            </div>
 	            <div class="form-group">
-	            	<label for="">Trả lời</label>
+	            	<label for=""><strong style="font-size: 22px;">Câu Trả lời</strong></label>
 	            	@foreach($answers as $item)
 	            	<div class="content_answer">
 	            		<div class="box-answer">
+							@if($item->member_id)
 	            			<span><strong>Trả lời:</strong> </span>{!! $item->content !!}
+	            			<p>	            				
+                                <button type="button" class="btn btn-{{ !$item->status ? 'warning' : 'success' }} status_answer" answer-id="{{ $item->id }}">
+			                      @if(!$item->status)
+			                        Chưa duyệt
+			                        @else
+			                        Đã duyệt
+			                      @endif
+			                    </button>
+	            			</p>
+							@endif
+							@if($item->admin_id)
+	            			<span><strong>Trả lời:</strong> </span>{!! $item->content !!}
+							@endif
 	            		</div>
 	            		<div class="box-footer-answer">
 	            			<span>Người trả lời: 
@@ -63,4 +77,28 @@
 		</div>
 	</div>
 </section>
+<script>
+	$('.status_answer').on('click', function(){
+		var btn = $(this);
+        var anwser_id = btn.attr('answer-id');
+        $.ajax({
+            url: '{{ route("admin.answer.active") }}',
+            type: 'POST',
+            data: {
+            	_token: '{{ csrf_token() }}',
+            	anwser_id : anwser_id            	
+            },
+            success: function(res){
+                if(res == 1){
+                	btn.addClass('btn-success').removeClass('btn-warning');
+                	btn.text('Đã xử lý');
+                }
+                if (res == 0) {
+                    btn.addClass('btn-warning').removeClass('btn-success');
+                    btn.text('Chưa xử lý');
+                }
+            }
+        });
+    });
+</script>
 @endsection

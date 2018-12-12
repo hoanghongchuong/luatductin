@@ -1,8 +1,7 @@
 @extends('index')
 @section('content')
-<form action="{{ route('member.postRegister') }}" method="post" accept-charset="utf-8">
-	{{ csrf_field() }}
-	
+<form action="{{ route('member.postRegister') }}" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+	{{ csrf_field() }}	
 	<div class="box-register col-md-6 col-md-offset-3">
 		@if(session('message'))
 			<div class="alert alert-success">
@@ -69,6 +68,10 @@
                   {!! $errors->first('password'); !!}
                 </label>
             @endif
+		</div>
+		<div class="form-group">
+			<label for="">Ảnh đại diện</label>
+			<input type="file" name="avartar_member">
 		</div>
 		<div class="form-group btn-register-member">
 			<input type="submit" name="" value="Đăng ký" class="btn btn-primary">
